@@ -1,33 +1,34 @@
-# AI-aides
+# Aidfinity
 
 
-本项目最初只是想对GPT-3模型进行一个封装，后来发现了由 [acheong08](https://github.com/acheong08) 大佬提供的ChatGPT接口，于是将这个AI小助手接入了ChatGPT，比起GPT-3，可玩性更高啦！
-
-本项目基于`Python` 和 `uni-app` 构建，~~目前只支持 `Android` 端使用~~。
+This project is built with `Python` and `uni-app`
 
 
+**Features**
 
-**更新：**
+High concurrency support, using Gunicorn + Redis to implement multithreading; supports building images with DockerCompose; frontend UI optimization.
 
-V2.2.3新增后端高并发支持，使用Gunicorn + Redis实现多线程；支持使用DockerCompose构建镜像；前端优化UI。
+Set the server address on the frontend; optimized UI, adapted for H5 end.
 
-V2.2.2新增前端设置服务器地址功能；优化UI，适配H5端。
+Interface to query the number of online robots~~; added local caching to avoid having to manually enter the account password every time you use it.
 
-V2.2.0修改后端接口；~~新增查询在线机器人数量的接口~~；新增本地缓存，避免每次使用都需要手动输入帐号密码。
-
-V2.1.0支持使用ChatGPT的帐号密码登录，可以部署到服务器后供多人使用。
+Supports logging in with ChatGPT account and password, which can be deployed to a server for multi-user access.
 
 
 
-使用方法如下：
 
-## Server端：
+**Usage is as follows:**
 
-拉取本仓库到服务器上（需要能访问外网，最好是境外服务器，并且要安装好docker和docker-compose）
+## Server side:
 
-**没有安装docker和docker-compose可以参考以下命令**
+Pull this repository to the server (requires internet access, preferably an overseas server, and docker and docker-compose installed)
 
-安装docker：
+**For those who haven't installed docker and docker-compose, refer to the following commands**
+
+**Installing docker:**
+
+```shell
+sudo apt-get remove docker docker-engine docker.io containerd runc
 
 ```shell
 sudo apt-get remove docker docker-engine docker.io containerd runc
@@ -63,10 +64,9 @@ sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
-安装docker-compose：
+Installing docker-compose:
 
-截至项目开发时，docker-compose最新版本为：2.16.0，可在[此处](https://github.com/docker/compose/releases)查看最新版本，将下面的版本版本号替换即可。
-
+As of the development of this project, the latest version of docker-compose is 2.16.0, which can be viewed here. You can replace the version number below with the latest version.
 ```shell
 sudo curl -L "https://github.com/docker/compose/releases/download/v2.16.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
@@ -77,7 +77,7 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 
 
-**拉取源代码**
+**Pull the source code**
 
 ```
 git clone https://github.com/Fangnan700/AI-aides.git
@@ -92,23 +92,23 @@ cd ./AI-aides/ai_aides(Server)
 **根据需要修改Dockerfile、docker-compose.yml和gunicorn.conf**
 
 ```dockerfile
-# 基础镜像
-FROM python:3.10
+# Base image
+FROM python:3.11
 
-# 运行目录
+# Working directory
 WORKDIR /app
 
-# 根据依赖包列表安装依赖
+# Install dependencies based on the dependency list
 COPY requirements.txt /app/
 RUN pip install --upgrade --no-cache-dir -r requirements.txt
 
-# 复制所有文件到镜像内
+# Copy all files into the image
 COPY . /app
 
-# 暴露5000端口到宿主机
+# Expose port 5000 to the host machine
 EXPOSE 5000
 
-# 项目启动命令，使用gunicorn启动
+# Project start command, using gunicorn
 CMD ["gunicorn", "-c", "gunicorn.conf", "app:app"]
 ```
 
@@ -128,32 +128,27 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+
 ```
 
-根据需要修改`docker-compose.yml`中`web`的`ports`，即可将服务运行在宿主机的指定端口。
+Modify ports of web in docker-compose.yml as needed to run the service on the specified port of the host machine.
 
 ```conf
 # gunicorn.conf
 
-# 并行工作进程数
+# Number of parallel worker processes
 workers = 4
-# 指定每个工作者进程的线程数
+# Number of threads per worker process
 threads = 4
-# 监听内网端口5000
+# Listen on internal port 5000
 bind = '0.0.0.0:5000'
-# 设置守护进程,将进程交给supervisor管理
+# Set the daemon to false, process is managed by supervisor
 daemon = 'false'
-# 工作模式协程
+# Work mode coroutine
 worker_class = 'gevent'
-# 设置最大并发量
+# Set maximum concurrency
 worker_connections = 2000
-# 设置进程文件目录
-pidfile = './gunicorn.pid'
-# 设置访问日志和错误信息日志路径
-accesslog = './log/gunicorn_acess.log'
-errorlog = './log/gunicorn_error.log'
-# 设置日志记录水平
-loglevel = 'warning'
+# Set
 ```
 
 **注意！！！**
