@@ -13,7 +13,7 @@
 </script>
 
 <style lang="scss">
-	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
+	/* Make sure to place this on the first line, and add the "lang="scss"" attribute to the style tag */
 	@import "uview-ui/index.scss";
 	page{
 		font-size: 28rpx;

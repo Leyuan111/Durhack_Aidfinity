@@ -1,50 +1,46 @@
 {
-	
 	"easycom": {
-			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/main/index/index",
 			"style": {
-				"navigationBarTitleText": "AI小助手",
+				"navigationBarTitleText": "AI Assistant",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom",
 				"app-plus": {
 					"softinputMode": "adjustResize"
 				}
 			}
-		}, {
+		},
+		{
 			"path": "pages/main/form/index",
 			"style": {
-				"navigationBarTitleText": "AI小助手",
+				"navigationBarTitleText": "AI Assistant",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#26B3A0",
 				"navigationBarTextStyle": "white"
 			}
+		},
+		{
+			"path": "pages/main/login/login",
+			"style": {
+				"navigationBarTitleText": "Login to ChatGPT",
+				"enablePullDownRefresh": false
+			}
+		},
+		{
+			"path": "pages/main/admin/admin",
+			"style": {
+				"navigationBarTitleText": "Server Settings",
+				"enablePullDownRefresh": false
+			}
 		}
-	    ,{
-            "path" : "pages/main/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "登录ChatGPT",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/main/admin/admin",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "服务器设置",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "AI小助手",
+		"navigationBarTitleText": "AI Assistant",
 		"navigationBarBackgroundColor": "#ffffff",
 		"backgroundColor": "#ffffff"
 	},
